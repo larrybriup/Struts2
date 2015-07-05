@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.1//EN"
+	"http://struts.apache.org/dtds/struts-2.1.dtd">
+
+<struts>
+<!-- <include file=""></include> -->
+
+	<!-- 配置struts属性 -->
+	<constant name="struts.devMode" value="true"></constant>
+	<!-- 配置struts属性,只能用.action .do后缀访问action -->
+	<constant name="struts.action.extension" value="action,do,,"></constant>
+	<!-- 设置ognl表达式可以直接访问action中的静态方法 -->
+	<constant name="struts.ognl.allowStaticMethodAccess" value="true"></constant>
+	<!-- 配置国际化的信息 -->
+	<constant name="struts.custom.i18n.resources" value="message"></constant>
+	<!-- 继承 myInter包-->
+    <package name="test" extends="myInter" namespace="/test">
+    	<default-action-ref name="methodTest1"></default-action-ref>
+    	<global-results>
+    		<result name="success">/success.jsp</result>
+    		<result name="error">/error.jsp</result>
+    	</global-results>
+    	<action name="MyTest">
+    		<result>/index.jsp</result>
+    		<!-- 引用拦截器 -->
+    		<interceptor-ref name="MyInterceptor"></interceptor-ref>
+    	</action>
+    	<action name="test*" class="com.eagle.web.action.ActionTest{1}">
+    	</action>
+    	<!-- 
+    	<action name="test1" class="com.eagle.web.action.ActionTest1">
+    		<result name="success">/success.jsp</result>
+    		<result name="error">/error.jsp</result>
+    	</action>
+    	<action name="test2" class="com.eagle.web.action.ActionTest2">
+    		<result name="success">/success.jsp</result>
+    		<result name="error">/error.jsp</result>
+    	</action>
+    	<action name="test3" class="com.eagle.web.action.ActionTest3">
+    		<result name="success">/success.jsp</result>
+    		<result name="error">/error.jsp</result>
+    	</action>
+    	 -->
+    	<action name="methodTest1" class="com.eagle.web.action.MethodActionTest">
+    	</action>
+    	<action name="methodTest2" class="com.eagle.web.action.MethodActionTest" method="go">
+    	</action>
+    	<action name="methodTest" class="com.eagle.web.action.MethodActionTest">
+    	</action>
+    	<action name="chainTest" class="com.eagle.web.action.ChainAction">
+    		<!-- 
+    		<result type="redirectAction">menthodTest1</result>
+    		<result type="chain">methodTest1</result>
+    		<result type="chain">
+	    		 <param name="namespace">/user</param>
+	    		 <param name="actionName">mytest</param>
+    		</result>
+    		 -->
+    	</action>
+    	<action name="redirectTest" class="com.eagle.web.action.RedirectAction">
+    		<result type="redirect">/success.jsp</result>
+    	</action>
+    	<action name="redirectActionTest" class="com.eagle.web.action.RedirectAction">
+    		<result type="redirectAction">methodTest1</result>
+    	</action>
+    </package>
+    <package name="user" extends="struts-default" namespace="/user">
+    	<action name="mytest">
+    		<result>/success.jsp</result>
+    	</action>
+    	<action name="paramAction" class="com.eagle.web.action.ParamAction">
+    		<result>/success.jsp</result>
+    	</action>
+    	<action name="vsacAction" class="com.eagle.web.action.valueStackAndActionContext">
+    		<result type="redirect">/valueStackAndActionContext.jsp</result>
+    	</action>
+    	<action name="webAction" class="com.eagle.web.action.WebAction">
+    		<result>/webAction.jsp</result>
+    	</action>
+    	<action name="getValueAction" class="com.eagle.web.action.getValueAction">
+    		<result>/getValue.jsp</result>
+    	</action>
+    	<action name="ognlAction" class="com.eagle.web.action.getValueAction" method="Ognl">
+    		<result>/ognl.jsp</result>
+    	</action>
+    	<action name="tagAction" class="com.eagle.web.action.TagAction">
+    		<result>/ognlTag.jsp</result>
+    	</action>
+    	<action name="tagFormAction" class="com.eagle.web.action.TagFormAction">
+    		<result>/success.jsp</result>
+    	</action>
+    	<action name="convertorAction" class="com.eagle.web.convertor.ConvertorAction">
+    		<result>/success.jsp</result>
+    		<result name="input">/error.jsp</result>
+    	</action>
+    	<action name="validationAction" class="com.eagle.web.validation.ValidationAction">
+    		<result>/success.jsp</result>
+    		<result name="input">/validation.jsp</result>
+    	</action>
+    </package>
+    <package name="myInter" extends="struts-default" namespace="/">
+    	 <!-- 定义拦截器 -->
+    	<interceptors>
+    		<interceptor name="MyInterceptor" class="com.eagle.web.interceptor.MyInterceptor"></interceptor>
+    		<interceptor-stack name="myStack">
+    			<interceptor-ref name="MyInterceptor"></interceptor-ref>
+    			<interceptor-ref name="basicStack"></interceptor-ref>
+    		</interceptor-stack>
+    	</interceptors>
+    	 <!-- 声明拦截器/栈 所有的此包或者继承了此包里的action都会被defaultStack拦截-->
+    	<default-interceptor-ref name="defaultStack"/>
+    </package>
+</struts>

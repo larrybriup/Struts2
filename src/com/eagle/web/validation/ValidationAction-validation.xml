@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC 
+  		"-//OpenSymphony Group//XWork Validator 1.0.2//EN" 
+  		"http://www.opensymphony.com/xwork/xwork-validator-1.0.2.dtd">
+<validators>
+<!-- 给当前action的哪一个属性做验证 -->
+	<field name="username">
+		<!-- 使用哪一个验证器来验证这个属性值
+		验证器的名字可以从
+		com.opensymphony.xwork2.validator.validators.default.xml
+		找到-->
+		<field-validator type="requiredstring">
+			<!-- 如果验证没有通过,返回的字符串信息-->
+			<message>用户名不能为空</message>
+		</field-validator>
+	</field>
+	<field name="password">
+		<field-validator type="requiredstring">
+			<!-- 如果验证没有通过,返回的字符串信息-->
+			<message>密码不能为空</message>
+		</field-validator>
+	</field>
+	<!--同一个属性可以使用多个验证器验证 -->
+	<field name="password">
+		<field-validator type="stringlength">
+			<!-- 可以给验证器传参数 -->
+			<!-- 参数名字可以在验证器类中看到 -->
+			<!-- 在default.xml找到是哪一个类-->
+			<param name="minLength">6</param>
+			<param name="maxLength">10</param>
+			<!-- 如果验证没有通过,返回的字符串信息-->
+			<message>密码长度必须是6-10个字符之间</message>
+		</field-validator>
+	</field>
+</validators>	
