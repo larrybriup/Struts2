@@ -7,11 +7,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class MyServlet extends HttpServlet {
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException,
+					IOException {
+		System.out.println("in MyServlet");
 		req.getRequestDispatcher("/success.jsp").forward(req, resp);
 	}
 
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException,
+					IOException {
 		doGet(req, resp);
 	}
 

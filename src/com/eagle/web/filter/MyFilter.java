@@ -19,6 +19,8 @@ public class MyFilter implements Filter{
 			FilterChain chain) throws IOException, ServletException {
 		req.setCharacterEncoding("UTF-8");
 		resp.setCharacterEncoding("UTF-8");
+		
+		System.out.println("in MyFilter.doFilter");
 		chain.doFilter(req, resp);
 	}
 

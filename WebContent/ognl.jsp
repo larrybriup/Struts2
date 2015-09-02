@@ -50,7 +50,7 @@
  	
  	<h3>调用ValueStack中action/其他对象的静态方法</h3>
  	<!-- 格式@vs1@静态方法的名字,vs1中1代表ValueStack中的第一个对象 -->
- 		<s:property value="@vs2@myStatic()"/><br>
+ 		<s:property value="@vs1@myStatic()"/><br>
  	
  	<h3>调用JDK中类或者自定义类中的方法</h3>
 	 	<!-- 第一个@后加类的全名,可以不写,建议写(规范)
@@ -59,7 +59,6 @@
  		<s:property value="@@PI"/><br>
  		<s:property value="@java.lang.Math@random()"/><br>
  		<s:property value="@com.eagle.bean.User@myStatic()"/><br>
- 	
  	
  	<s:debug></s:debug><br>
 </body>

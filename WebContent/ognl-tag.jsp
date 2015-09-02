@@ -18,7 +18,8 @@
 		<s:property value="id"/>
 		<s:property value="name"/>
 		<s:property value="age"/><br>
-	</s:iterator><hr>
+	</s:iterator>
+	<hr>
 	<s:iterator value="list" id="u">
 		<s:property value="#u.id"/>
 		<s:property value="#u.name"/>
@@ -26,13 +27,13 @@
 	</s:iterator>
 	遍历map类型集合<br>
 	<s:iterator value="map" id="entry">
-		<s:property value="key"/>-->
+		<s:property value="key"/>--
 		<s:property value="value.id"/>
 		<s:property value="value.name"/>
 		<s:property value="value.age"/><br>
 	</s:iterator><br>
 	<s:iterator value="map" id="entry">
-		<s:property value="#entry.key"/>-->
+		<s:property value="#entry.key"/>--
 		<s:property value="#entry.value.id"/>
 		<s:property value="#entry.value.name"/>
 		<s:property value="#entry.value.age"/><br>
@@ -59,13 +60,13 @@
 		<s:param name="name" value="lisi"></s:param>
 	</s:include>
 	<hr>
-	<s:form action="user/tagFormAction" method="post">
+	<s:form action="user/tag-form-action" method="post">
 		<s:textfield name="username" label="用户名" ></s:textfield>
 		<s:password name="password" label="密码"></s:password>
 		<!-- list="{'男','女'}" 把男和女传给action -->
 		<s:radio name="gender" list="#{'0':'男','1':'女'}" label="性别"></s:radio>
 		<!-- struts2标签中的多选框checkbox
-			fen两种:
+			分两种:
 			1,单个的checkbox
 			2,一组checkbox
 		 -->
@@ -76,8 +77,9 @@
 		<s:checkbox name="autoLogin" fieldValue="yes" label="一周内自动登陆"></s:checkbox>
 		<s:submit value="提交" method="execute"></s:submit>
 		<s:submit value="注册" method="register"></s:submit>
-		<s:submit type="image" src="11.gif"></s:submit>
+		<s:submit type="image" src="./11.gif"></s:submit>
 	</s:form>
+	
 	<s:a href="index.jsp">主页1</s:a>
 	<s:url value="http://www.baidu.com" var="myURL1"></s:url>
 	<!-- myURL1是一个变量,在这里要用%{myURL1}来拿变量的值 -->
@@ -87,7 +89,7 @@
 	<s:url value="/index.jsp" var="myURL2"></s:url>
 	<s:a href="%{myURL2}">百度</s:a>
 	
-	<s:url action="mytest" namespace="/user" var="myURL3"></s:url>
+	<s:url action="my-user-test" namespace="/user" var="myURL3"></s:url>
 	<s:a href="%{myURL3}">test</s:a>
 	
 	<s:set name="myURL4" value="'http://www.baidu.com'"></s:set>

@@ -8,10 +8,9 @@
 <title>convertor.jsp</title>
 </head>
 <body>
- 	<form action="user/convertorAction" method="post">
+ 	<form action="user/convertor-action" method="post">
  		用户:<input type="text" name="user" /><span>格式1:tom:20</span>
  		<input type="submit" value="提交" />
- 		
  	</form>
  	
  	<hr>

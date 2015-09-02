@@ -12,93 +12,118 @@
 	<constant name="struts.action.extension" value="action,do,,"></constant>
 	<!-- 设置ognl表达式可以直接访问action中的静态方法 -->
 	<constant name="struts.ognl.allowStaticMethodAccess" value="true"></constant>
-	<!-- 配置国际化的信息 -->
+	<!-- 配置国际化的信息, this will find the properties files start with message-->
 	<constant name="struts.custom.i18n.resources" value="message"></constant>
-	<!-- 继承 myInter包-->
+	
+	
+<!-- 	package & namespace-->
+<!-- 	 if some action can not be found in your package which namespace is "/foo" ,
+	 struts2 will search the same action name in default package. If default 
+	 package not exist, it will search root package -->
+	<package name="basic_struts2_default" extends="struts-default">
+		<!--put actions that share in all namespace and global settings-->
+		<default-action-ref name="index"></default-action-ref>
+	</package>
+	<package name="basicstruts2_root" extends="basic_struts2_default" namespace="/">
+		<action name="index">
+    		<result>/index.jsp</result>
+		</action>
+	</package>
+	<package name="basicstruts2_foo" extends="basic_struts2_default" namespace="/foo">
+		<action name="show">
+    		<result>/success.jsp</result>
+		</action>
+	</package>
+	
+    <!-- 继承 myInter包-->
     <package name="test" extends="myInter" namespace="/test">
-    	<default-action-ref name="methodTest1"></default-action-ref>
+    	
+<!--     	will reference the MyTest action if we don't set or set wrong action in URL -->
+    	<default-action-ref name="MyTest"></default-action-ref>
+    	
+<!--     	will work if the action doesn't config a result tag-->
     	<global-results>
     		<result name="success">/success.jsp</result>
     		<result name="error">/error.jsp</result>
     	</global-results>
+    	
     	<action name="MyTest">
     		<result>/index.jsp</result>
-    		<!-- 引用拦截器 -->
+    		<!-- 引用拦截器 should defined after result tag-->
     		<interceptor-ref name="MyInterceptor"></interceptor-ref>
     	</action>
-    	<action name="test*" class="com.eagle.web.action.ActionTest{1}">
-    	</action>
-    	<!-- 
-    	<action name="test1" class="com.eagle.web.action.ActionTest1">
-    		<result name="success">/success.jsp</result>
-    		<result name="error">/error.jsp</result>
-    	</action>
-    	<action name="test2" class="com.eagle.web.action.ActionTest2">
-    		<result name="success">/success.jsp</result>
-    		<result name="error">/error.jsp</result>
-    	</action>
-    	<action name="test3" class="com.eagle.web.action.ActionTest3">
-    		<result name="success">/success.jsp</result>
-    		<result name="error">/error.jsp</result>
-    	</action>
+    	
+<!--     	<action name="test1" class="com.eagle.web.action.ActionTest1"> -->
+<!--     		<result name="success">/success.jsp</result> -->
+<!--     		<result name="error">/error.jsp</result> -->
+<!--     	</action> -->
+<!--     	<action name="test2" class="com.eagle.web.action.ActionTest2"></action> -->
+<!--     	<action name="test3" class="com.eagle.web.action.ActionTest3"></action> -->
+    	
+    	 <!-- 
+    	 	use wildcard to config
     	 -->
-    	<action name="methodTest1" class="com.eagle.web.action.MethodActionTest">
-    	</action>
-    	<action name="methodTest2" class="com.eagle.web.action.MethodActionTest" method="go">
-    	</action>
-    	<action name="methodTest" class="com.eagle.web.action.MethodActionTest">
-    	</action>
-    	<action name="chainTest" class="com.eagle.web.action.ChainAction">
-    		<!-- 
-    		<result type="redirectAction">menthodTest1</result>
-    		<result type="chain">methodTest1</result>
-    		<result type="chain">
-	    		 <param name="namespace">/user</param>
-	    		 <param name="actionName">mytest</param>
-    		</result>
-    		 -->
-    	</action>
-    	<action name="redirectTest" class="com.eagle.web.action.RedirectAction">
+    	<action name="test*" class="com.eagle.web.action.ActionTest{1}"></action>
+    	 
+    	<action name="method-test" class="com.eagle.web.action.MethodActionTest"></action>
+    	<action name="method-test1" class="com.eagle.web.action.MethodActionTest"></action>
+    	<action name="method-test2" class="com.eagle.web.action.MethodActionTest" method="go"></action>
+    	
+<!--     	redirect -->
+    	<action name="redirect-test" class="com.eagle.web.action.RedirectAction">
     		<result type="redirect">/success.jsp</result>
     	</action>
-    	<action name="redirectActionTest" class="com.eagle.web.action.RedirectAction">
-    		<result type="redirectAction">methodTest1</result>
+    	<action name="redirect-action-test" class="com.eagle.web.action.RedirectAction">
+    		<result type="redirectAction">method-test1</result>
+    	</action>
+    	
+<!--     	chain -->
+    	<action name="chain-test" class="com.eagle.web.action.ChainAction">
+    		
+    		<result type="redirectAction">method-test1</result>
+<!--     		<result type="chain">method-test1</result> -->
+<!--     		<result type="chain"> -->
+<!-- 	    		 <param name="namespace">/user</param> -->
+<!-- 	    		 <param name="actionName">mytest</param> -->
+<!--     		</result> -->
     	</action>
     </package>
+    
     <package name="user" extends="struts-default" namespace="/user">
-    	<action name="mytest">
+    	<action name="my-user-test">
     		<result>/success.jsp</result>
     	</action>
-    	<action name="paramAction" class="com.eagle.web.action.ParamAction">
+    	<action name="param-action" class="com.eagle.web.action.ParamAction">
     		<result>/success.jsp</result>
     	</action>
-    	<action name="vsacAction" class="com.eagle.web.action.valueStackAndActionContext">
-    		<result type="redirect">/valueStackAndActionContext.jsp</result>
+    	<action name="vsac-action" class="com.eagle.web.action.valueStackAndActionContext">
+    		<result type="redirect">/value-stack-action-context.jsp</result>
     	</action>
-    	<action name="webAction" class="com.eagle.web.action.WebAction">
-    		<result>/webAction.jsp</result>
+    	<action name="web-action" class="com.eagle.web.action.WebAction">
+    		<result>/web-action.jsp</result>
     	</action>
-    	<action name="getValueAction" class="com.eagle.web.action.getValueAction">
-    		<result>/getValue.jsp</result>
+    	<action name="get-value-action" class="com.eagle.web.action.getValueAction">
+    		<result>/get-value.jsp</result>
     	</action>
-    	<action name="ognlAction" class="com.eagle.web.action.getValueAction" method="Ognl">
+    	<action name="ognl-action" class="com.eagle.web.action.getValueAction" method="Ognl">
     		<result>/ognl.jsp</result>
     	</action>
-    	<action name="tagAction" class="com.eagle.web.action.TagAction">
-    		<result>/ognlTag.jsp</result>
+    	<action name="tag-action" class="com.eagle.web.action.TagAction">
+    		<result>/ognl-tag.jsp</result>
     	</action>
-    	<action name="tagFormAction" class="com.eagle.web.action.TagFormAction">
+    	<action name="tag-form-action" class="com.eagle.web.action.TagFormAction">
     		<result>/success.jsp</result>
     	</action>
-    	<action name="convertorAction" class="com.eagle.web.convertor.ConvertorAction">
+    	<action name="convertor-action" class="com.eagle.web.convertor.ConvertorAction">
     		<result>/success.jsp</result>
     		<result name="input">/error.jsp</result>
     	</action>
-    	<action name="validationAction" class="com.eagle.web.validation.ValidationAction">
+    	<action name="validation-action" class="com.eagle.web.validation.ValidationAction">
     		<result>/success.jsp</result>
     		<result name="input">/validation.jsp</result>
     	</action>
     </package>
+    
     <package name="myInter" extends="struts-default" namespace="/">
     	 <!-- 定义拦截器 -->
     	<interceptors>
@@ -108,7 +133,8 @@
     			<interceptor-ref name="basicStack"></interceptor-ref>
     		</interceptor-stack>
     	</interceptors>
-    	 <!-- 声明拦截器/栈 所有的此包或者继承了此包里的action都会被defaultStack拦截-->
+<!--     	 声明拦截器/栈 所有的此包或者继承了此包里的action都会被defaultStack拦截 -->
     	<default-interceptor-ref name="defaultStack"/>
     </package>
+    
 </struts>

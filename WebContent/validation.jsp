@@ -9,7 +9,7 @@
 </head>
 <body>
 	<h3><s:fielderror></s:fielderror></h3>
- 	<form action="user/validationAction" method="post">
+ 	<form action="user/validation-action" method="post">
  		用户名:<input type="text" name="username" value="${username}"/>
  		密码:<input type="text" name="password" />
  		<input type="submit" value="提交" />
